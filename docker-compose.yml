@@ -16,18 +16,23 @@ services:
       dockerfile: Dockerfile
     container_name: auth-service
     env_file:
-      - ./auth-service/.env
+      - ./.env
+      - ./auth-service/auth.env
     depends_on:
-      - mysql
+      - markethub-db
     ports:
       - "8001:8000"
 
-  mysql:
+  markethub-db:
     image: mysql:8.0
     container_name: markethub-db
     hostname: markethub-db
     env_file:
-      - ./auth-service/.env
+      - ./.env
+      - ./auth-service/auth.env
+      - ./payment-service/payment.env
+      - ./catalog-service/catalog.env
+      - ./commerce-service/commerce.env
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     ports:
