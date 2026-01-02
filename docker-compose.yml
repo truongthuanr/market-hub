@@ -1,0 +1,11 @@
+services:  
+  ui:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    container_name: ui
+    environment:
+      - NODE_ENV=production
+      - PORT=8000
+    ports:
+      - "8000:8000"
