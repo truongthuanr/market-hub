@@ -3,12 +3,13 @@ services:
     build:
       context: ./ui
       dockerfile: Dockerfile
-    container_name: ui
     environment:
-      - NODE_ENV=production
-      - PORT=8000
+      - NODE_ENV=development
     ports:
       - "8000:8000"
+    volumes:
+      - ./ui:/app
+      - /app/node_modules
 
   auth-service:
     build:
