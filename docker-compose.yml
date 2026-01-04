@@ -5,6 +5,8 @@ services:
       dockerfile: Dockerfile
     environment:
       - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
     ports:
       - "8000:8000"
     volumes:
