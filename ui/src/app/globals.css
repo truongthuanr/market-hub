@@ -38,6 +38,13 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+    --page-bg: radial-gradient(
+      circle at top,
+      #f6f3ec,
+      #efe8dd 35%,
+      #e7dacb 100%
+    );
+    --page-text: 20 10% 15%;
   }
   .dark {
     --background: 0 0% 3.9%;
@@ -64,6 +71,13 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+    --page-bg: radial-gradient(
+      circle at top,
+      #141210,
+      #191512 35%,
+      #1f1914 100%
+    );
+    --page-text: 0 0% 98%;
   }
 }
 
@@ -75,5 +89,13 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .page-surface {
+    min-height: 100vh;
+    background: var(--page-bg);
+    color: hsl(var(--page-text));
   }
 }

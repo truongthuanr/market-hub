@@ -9,7 +9,7 @@ type AuthShellProps = {
 
 export function AuthShell({ children, gridClassName }: AuthShellProps) {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top,_#f4f4f5,_#e4e4e7_35%,_#d4d4d8_100%)] text-zinc-900">
+    <div className={cn("page-surface relative overflow-hidden")}>
       <div className="pointer-events-none absolute -left-24 top-14 h-72 w-72 rounded-full bg-white/70 blur-3xl" />
       <div className="pointer-events-none absolute -right-24 bottom-10 h-72 w-72 rounded-full bg-white/70 blur-3xl" />
 
