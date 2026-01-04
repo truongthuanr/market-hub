@@ -76,7 +76,7 @@ export default function Home() {
         </section>
 
         <section className="grid gap-8 lg:grid-cols-[1.4fr_0.6fr]">
-          <div>
+          <div className="rounded-[32px] border border-white/40 bg-white/40 p-6 shadow-sm backdrop-blur">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.3em] text-stone-500">
@@ -130,7 +130,7 @@ export default function Home() {
             </div>
           </div>
 
-          <aside className="space-y-4">
+          <aside className="space-y-4 rounded-[32px] border border-white/40 bg-white/40 p-5 shadow-sm backdrop-blur">
             <div className="rounded-3xl border border-white/70 bg-white/80 p-5 shadow-sm backdrop-blur">
               <p className="text-xs font-semibold uppercase tracking-[0.3em] text-stone-500">
                 Today picks
