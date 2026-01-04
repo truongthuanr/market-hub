@@ -1,0 +1,6 @@
+# Local MySQL data volume
+/db/volume/
+
+# Ignore environment variable files
+.env
+*.env

@@ -1,0 +1,51 @@
+services:  
+  ui:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./ui:/app
+      - /app/node_modules
+
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    container_name: auth-service
+    env_file:
+      - ./.env
+      - ./auth-service/auth.env
+    depends_on:
+      - markethub-db
+    ports:
+      - "8001:8000"
+
+  markethub-db:
+    image: mysql:8.0
+    container_name: markethub-db
+    hostname: markethub-db
+    env_file:
+      - ./.env
+      - ./auth-service/auth.env
+      - ./payment-service/payment.env
+      - ./catalog-service/catalog.env
+      - ./commerce-service/commerce.env
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db/volume:/var/lib/mysql
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -p$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
