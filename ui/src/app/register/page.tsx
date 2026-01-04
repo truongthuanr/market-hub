@@ -1,5 +1,9 @@
 import Link from "next/link";
 
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+
 export default function RegisterPage() {
   return (
     <div className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top,_#f4f4f5,_#e4e4e7_35%,_#d4d4d8_100%)] text-zinc-900">
@@ -30,72 +34,73 @@ export default function RegisterPage() {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-white/70 bg-white/80 p-8 shadow-[0_30px_80px_rgba(24,24,27,0.12)] backdrop-blur">
-            <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-semibold text-zinc-900">Register</h2>
+          <Card className="rounded-3xl border-white/70 bg-white/80 shadow-[0_30px_80px_rgba(24,24,27,0.12)] backdrop-blur">
+            <CardHeader className="flex-row items-center justify-between space-y-0 pb-0">
+              <CardTitle className="text-2xl font-semibold text-zinc-900">
+                Register
+              </CardTitle>
               <span className="rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-500">
                 Free
               </span>
-            </div>
-            <form className="mt-6 grid gap-4">
-              <label className="grid gap-2 text-sm font-medium text-zinc-700">
-                Full name
-                <input
-                  className="w-full rounded-2xl border border-zinc-200 bg-white/90 px-4 py-3 text-sm text-zinc-900 shadow-sm outline-none transition focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200"
-                  name="name"
-                  placeholder="Alex Johnson"
-                  type="text"
-                  autoComplete="name"
-                  required
-                />
-              </label>
-              <label className="grid gap-2 text-sm font-medium text-zinc-700">
-                Work email
-                <input
-                  className="w-full rounded-2xl border border-zinc-200 bg-white/90 px-4 py-3 text-sm text-zinc-900 shadow-sm outline-none transition focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200"
-                  name="email"
-                  placeholder="you@company.com"
-                  type="email"
-                  autoComplete="email"
-                  required
-                />
-              </label>
-              <label className="grid gap-2 text-sm font-medium text-zinc-700">
-                Password
-                <input
-                  className="w-full rounded-2xl border border-zinc-200 bg-white/90 px-4 py-3 text-sm text-zinc-900 shadow-sm outline-none transition focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200"
-                  name="password"
-                  placeholder="Create a secure password"
-                  type="password"
-                  autoComplete="new-password"
-                  required
-                />
-              </label>
-              <label className="grid gap-2 text-sm font-medium text-zinc-700">
-                Company size
-                <select
-                  className="w-full rounded-2xl border border-zinc-200 bg-white/90 px-4 py-3 text-sm text-zinc-900 shadow-sm outline-none transition focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200"
-                  name="teamSize"
-                  defaultValue="1-5"
-                >
-                  <option value="1-5">1-5 people</option>
-                  <option value="6-20">6-20 people</option>
-                  <option value="21-50">21-50 people</option>
-                  <option value="51-200">51-200 people</option>
-                  <option value="201+">201+ people</option>
-                </select>
-              </label>
-              <button
-                className="mt-2 w-full rounded-2xl bg-zinc-900 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-zinc-900/20 transition hover:-translate-y-0.5 hover:bg-zinc-800"
-                type="submit"
-              >
-                Create account
-              </button>
-            </form>
-            <p className="mt-6 text-xs text-zinc-500">
-              You can invite teammates and set roles after onboarding.
-            </p>
-          </div>
+            </CardHeader>
+            <CardContent className="pt-6">
+              <form className="grid gap-4">
+                <label className="grid gap-2 text-sm font-medium text-zinc-700">
+                  Full name
+                  <Input
+                    className="rounded-2xl border-zinc-200 bg-white/90 shadow-sm focus-visible:ring-zinc-200"
+                    name="name"
+                    placeholder="Alex Johnson"
+                    type="text"
+                    autoComplete="name"
+                    required
+                  />
+                </label>
+                <label className="grid gap-2 text-sm font-medium text-zinc-700">
+                  Work email
+                  <Input
+                    className="rounded-2xl border-zinc-200 bg-white/90 shadow-sm focus-visible:ring-zinc-200"
+                    name="email"
+                    placeholder="you@company.com"
+                    type="email"
+                    autoComplete="email"
+                    required
+                  />
+                </label>
+                <label className="grid gap-2 text-sm font-medium text-zinc-700">
+                  Password
+                  <Input
+                    className="rounded-2xl border-zinc-200 bg-white/90 shadow-sm focus-visible:ring-zinc-200"
+                    name="password"
+                    placeholder="Create a secure password"
+                    type="password"
+                    autoComplete="new-password"
+                    required
+                  />
+                </label>
+                <label className="grid gap-2 text-sm font-medium text-zinc-700">
+                  Company size
+                  <select
+                    className="w-full rounded-2xl border border-zinc-200 bg-white/90 px-3 py-2 text-sm text-zinc-900 shadow-sm outline-none transition focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200"
+                    name="teamSize"
+                    defaultValue="1-5"
+                  >
+                    <option value="1-5">1-5 people</option>
+                    <option value="6-20">6-20 people</option>
+                    <option value="21-50">21-50 people</option>
+                    <option value="51-200">51-200 people</option>
+                    <option value="201+">201+ people</option>
+                  </select>
+                </label>
+                <Button className="mt-2 w-full rounded-2xl" type="submit">
+                  Create account
+                </Button>
+              </form>
+              <p className="mt-6 text-xs text-zinc-500">
+                You can invite teammates and set roles after onboarding.
+              </p>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>
