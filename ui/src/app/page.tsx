@@ -235,6 +235,27 @@ export default function Home() {
           </div>
         </section>
       </main>
+      <footer className="border-t border-white/70 bg-white/70">
+        <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 py-10 text-sm text-stone-600 md:flex-row md:items-center md:justify-between">
+          <div className="space-y-2">
+            <p className="text-base font-semibold text-stone-900">
+              Truong Thuan — Software Engineer
+            </p>
+            <p className="text-xs">Thanks for visiting. Let’s build something thoughtful.</p>
+            <p className="text-xs">truongthuan.r@gmail.com</p>
+          </div>
+          <div className="flex flex-wrap gap-4 text-xs">
+            <a
+              className="font-semibold text-stone-700 hover:text-stone-900"
+              href="https://github.com/truongthuanr"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Visit My GitHub
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
