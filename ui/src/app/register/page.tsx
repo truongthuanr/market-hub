@@ -75,6 +75,17 @@ export default function RegisterPage() {
               />
             </label>
             <label className="grid gap-2 text-sm font-medium text-zinc-700">
+              Confirm password
+              <Input
+                className="rounded-2xl border-zinc-200 bg-white/90 shadow-sm focus-visible:ring-zinc-200"
+                name="passwordConfirm"
+                placeholder="Confirm password"
+                type="password"
+                autoComplete="new-password"
+                required
+              />
+            </label>
+            {/* <label className="grid gap-2 text-sm font-medium text-zinc-700">
               Company size
               <select
                 className="w-full rounded-2xl border border-zinc-200 bg-white/90 px-3 py-2 text-sm text-zinc-900 shadow-sm outline-none transition focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200"
@@ -87,7 +98,7 @@ export default function RegisterPage() {
                 <option value="51-200">51-200 people</option>
                 <option value="201+">201+ people</option>
               </select>
-            </label>
+            </label> */}
             <Button className="mt-2 w-full rounded-2xl" type="submit">
               Create account
             </Button>
