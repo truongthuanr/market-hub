@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState, type FormEvent } from "react";
+import { useSearchParams } from "next/navigation";
+import { useMemo, useState, type FormEvent } from "react";
 
 import { AuthShell } from "@/components/layout/auth-shell";
 import { Button } from "@/components/ui/button";
@@ -9,6 +10,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
 export default function RegisterPage() {
+    const searchParams = useSearchParams();
+    const role = useMemo(() => {
+        const requested = (searchParams?.get("role") || "").toLowerCase();
+        return requested === "seller" ? "seller" : "buyer";
+    }, [searchParams]);
+
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -18,7 +25,8 @@ export default function RegisterPage() {
         setErrorMessage(null);
         setSuccessMessage(null);
 
-        const formData = new FormData(event.currentTarget);
+        const form = event.currentTarget;
+        const formData = new FormData(form);
         const email = String(formData.get("email") || "").trim();
         const password = String(formData.get("password") || "");
         const passwordConfirm = String(formData.get("passwordConfirm") || "");
@@ -44,7 +52,7 @@ export default function RegisterPage() {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ email, password }),
+                body: JSON.stringify({ email, password, role }),
             });
 
             if (!response.ok) {
@@ -58,9 +66,12 @@ export default function RegisterPage() {
             }
 
             setSuccessMessage("Account created. Please sign in.");
-            event.currentTarget.reset();
-        } catch {
-            setErrorMessage("Unable to reach the auth service. Please try again.");
+            form.reset();
+        } catch (error) {
+            const message =
+                error instanceof Error ? error.message : "Unknown error";
+            console.error("Register failed:", error);
+            setErrorMessage(`Error while registering, please try again. `);
         } finally {
             setIsSubmitting(false);
         }
@@ -88,15 +99,40 @@ export default function RegisterPage() {
                         Sign in instead
                     </Link>
                 </div>
+                <div className="flex items-center gap-3 text-sm text-zinc-600">
+                    <span>
+                        {role === "seller"
+                            ? "Registering as a buyer?"
+                            : "Registering as a seller?"}
+                    </span>
+                    <Link
+                        className="font-semibold text-zinc-900 underline-offset-4 hover:underline"
+                        href={role === "seller" ? "/register" : "/register?role=seller"}
+                    >
+                        {role === "seller"
+                            ? "Create a buyer account"
+                            : "Create a seller account"}
+                    </Link>
+                </div>
             </div>
 
-            <Card className="rounded-3xl border-white/70 bg-white/80 shadow-[0_30px_80px_rgba(24,24,27,0.12)] backdrop-blur">
+            <Card
+                className={`rounded-3xl border-white/70 bg-white/80 shadow-[0_30px_80px_rgba(24,24,27,0.12)] backdrop-blur ${
+                    role === "seller"
+                        ? "ring-1 ring-amber-200/80"
+                        : "ring-1 ring-sky-200/80"
+                }`}
+            >
                 <CardHeader className="flex-row items-center justify-between space-y-0 pb-0">
-                    <CardTitle className="text-2xl font-semibold text-zinc-900">
-                        Register
+                    <CardTitle
+                        className={`text-2xl font-semibold ${
+                            role === "seller" ? "text-amber-700" : "text-sky-700"
+                        }`}
+                    >
+                        {role === "seller" ? "Seller registration" : "Buyer registration"}
                     </CardTitle>
                     <span className="rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-500">
-                        Free
+                        {role === "seller" ? "Seller" : "Buyer"}
                     </span>
                 </CardHeader>
                 <CardContent className="pt-6">
@@ -145,20 +181,7 @@ export default function RegisterPage() {
                                 required
                             />
                         </label>
-                        {/* <label className="grid gap-2 text-sm font-medium text-zinc-700">
-              Company size
-              <select
-                className="w-full rounded-2xl border border-zinc-200 bg-white/90 px-3 py-2 text-sm text-zinc-900 shadow-sm outline-none transition focus:border-zinc-400 focus:ring-2 focus:ring-zinc-200"
-                name="teamSize"
-                defaultValue="1-5"
-              >
-                <option value="1-5">1-5 people</option>
-                <option value="6-20">6-20 people</option>
-                <option value="21-50">21-50 people</option>
-                <option value="51-200">51-200 people</option>
-                <option value="201+">201+ people</option>
-              </select>
-            </label> */}
+                        
                         {errorMessage ? (
                             <p className="rounded-2xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-700">
                                 {errorMessage}
@@ -170,11 +193,19 @@ export default function RegisterPage() {
                             </p>
                         ) : null}
                         <Button
-                            className="mt-2 w-full rounded-2xl"
+                            className={`mt-2 w-full rounded-2xl ${
+                                role === "seller"
+                                    ? "bg-amber-600/80 text-white hover:bg-amber-700/80"
+                                    : "bg-sky-600 text-white hover:bg-sky-700"
+                            }`}
                             type="submit"
                             disabled={isSubmitting}
                         >
-                            {isSubmitting ? "Creating account..." : "Create account"}
+                            {isSubmitting
+                                ? "Creating account..."
+                                : role === "seller"
+                                  ? "Create seller account"
+                                  : "Create buyer account"}
                         </Button>
                     </form>
                     <p className="mt-6 text-xs text-zinc-500">
