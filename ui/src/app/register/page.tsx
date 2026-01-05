@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useState, type FormEvent } from "react";
 
 import { AuthShell } from "@/components/layout/auth-shell";
 import { Button } from "@/components/ui/button";
@@ -6,6 +9,61 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
 export default function RegisterPage() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setErrorMessage(null);
+    setSuccessMessage(null);
+
+    const formData = new FormData(event.currentTarget);
+    const email = String(formData.get("email") || "").trim();
+    const password = String(formData.get("password") || "");
+    const passwordConfirm = String(formData.get("passwordConfirm") || "");
+
+    if (!email || !password) {
+      setErrorMessage("Please enter an email and password.");
+      return;
+    }
+
+    if (password !== passwordConfirm) {
+      setErrorMessage("Passwords do not match.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const baseUrl =
+        process.env.NEXT_PUBLIC_AUTH_API_URL || "http://localhost:8001";
+      const response = await fetch(`${baseUrl}/auth/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        const payload = await response.json().catch(() => null);
+        const detail =
+          payload?.detail ||
+          payload?.message ||
+          "Registration failed. Please try again.";
+        setErrorMessage(detail);
+        return;
+      }
+
+      setSuccessMessage("Account created. Please sign in.");
+      event.currentTarget.reset();
+    } catch {
+      setErrorMessage("Unable to reach the auth service. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <AuthShell>
       <div className="flex flex-col justify-center gap-6">
@@ -40,7 +98,7 @@ export default function RegisterPage() {
           </span>
         </CardHeader>
         <CardContent className="pt-6">
-          <form className="grid gap-4">
+          <form className="grid gap-4" onSubmit={handleSubmit}>
             <label className="grid gap-2 text-sm font-medium text-zinc-700">
               Full name
               <Input
@@ -99,8 +157,22 @@ export default function RegisterPage() {
                 <option value="201+">201+ people</option>
               </select>
             </label> */}
-            <Button className="mt-2 w-full rounded-2xl" type="submit">
-              Create account
+            {errorMessage ? (
+              <p className="rounded-2xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-700">
+                {errorMessage}
+              </p>
+            ) : null}
+            {successMessage ? (
+              <p className="rounded-2xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs text-emerald-700">
+                {successMessage}
+              </p>
+            ) : null}
+            <Button
+              className="mt-2 w-full rounded-2xl"
+              type="submit"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Creating account..." : "Create account"}
             </Button>
           </form>
           <p className="mt-6 text-xs text-zinc-500">
