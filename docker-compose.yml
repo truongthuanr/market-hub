@@ -1,8 +1,9 @@
 services:  
-  ui:
+  markethub-ui:
     build:
       context: ./ui
       dockerfile: Dockerfile
+    container_name: markethub-ui
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
@@ -20,9 +21,9 @@ services:
     container_name: auth-service
     env_file:
       - ./.env
-      - ./auth-service/auth.env
     depends_on:
-      - markethub-db
+      markethub-db:
+        condition: service_healthy
     ports:
       - "8001:8000"
 
@@ -32,10 +33,10 @@ services:
     hostname: markethub-db
     env_file:
       - ./.env
-      - ./auth-service/auth.env
-      - ./payment-service/payment.env
-      - ./catalog-service/catalog.env
-      - ./commerce-service/commerce.env
+      # - ./auth-service/auth.env
+      # - ./payment-service/payment.env
+      # - ./catalog-service/catalog.env
+      # - ./commerce-service/commerce.env
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     ports:

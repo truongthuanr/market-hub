@@ -76,7 +76,7 @@ export default function Home() {
         </section>
 
         <section className="grid gap-8 lg:grid-cols-[1.4fr_0.6fr]">
-          <div>
+          <div className="rounded-[32px] border border-white/40 bg-white/40 p-6 shadow-sm backdrop-blur">
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.3em] text-stone-500">
@@ -130,7 +130,7 @@ export default function Home() {
             </div>
           </div>
 
-          <aside className="space-y-4">
+          <aside className="space-y-4 rounded-[32px] border border-white/40 bg-white/40 p-5 shadow-sm backdrop-blur">
             <div className="rounded-3xl border border-white/70 bg-white/80 p-5 shadow-sm backdrop-blur">
               <p className="text-xs font-semibold uppercase tracking-[0.3em] text-stone-500">
                 Today picks
@@ -235,6 +235,27 @@ export default function Home() {
           </div>
         </section>
       </main>
+      <footer className="border-t border-white/70 bg-white/70">
+        <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 py-10 text-sm text-stone-600 md:flex-row md:items-center md:justify-between">
+          <div className="space-y-2">
+            <p className="text-base font-semibold text-stone-900">
+              Truong Thuan — Software Engineer
+            </p>
+            <p className="text-xs">Thanks for visiting. Let’s build something thoughtful.</p>
+            <p className="text-xs">truongthuan.r@gmail.com</p>
+          </div>
+          <div className="flex flex-wrap gap-4 text-xs">
+            <a
+              className="font-semibold text-stone-700 hover:text-stone-900"
+              href="https://github.com/truongthuanr"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Visit My GitHub
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
