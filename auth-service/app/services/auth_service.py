@@ -31,5 +31,5 @@ class AuthService:
         return UserOut.model_validate(user)
 
     def create_token(self, user: UserOut) -> Token:
-        access_token = security.create_access_token(subject=str(user.id))
+        access_token = security.create_access_token(subject=str(user.id), role=user.role)
         return Token(access_token=access_token)

@@ -18,6 +18,7 @@ class UserRepository:
         db_user = UserCredential(
             email=user_in.email,
             hashed_password=hash_password(user_in.password),
+            role=user_in.role,
         )
         self.db.add(db_user)
         self.db.commit()

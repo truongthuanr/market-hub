@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.db.session import SessionLocal
 from app.services.auth_service import AuthService
-from app.schemas.user_schema import UserCreate, UserOut, Token
+from app.schemas.user_schema import UserCreate, UserLogin, UserOut, Token
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -23,7 +23,7 @@ def register(user_in: UserCreate, db: Session = Depends(get_db)):
 
 
 @router.post("/login", response_model=Token)
-def login(user_in: UserCreate, db: Session = Depends(get_db)):
+def login(user_in: UserLogin, db: Session = Depends(get_db)):
     service = AuthService(db)
     user = service.authenticate_user(user_in.email, user_in.password)
     if not user:
