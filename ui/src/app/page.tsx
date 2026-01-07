@@ -1,3 +1,5 @@
+import { AuthActions } from "@/components/auth/auth-actions";
+
 export default function Home() {
   return (
     <div className="page-surface">
@@ -35,18 +37,7 @@ export default function Home() {
           </a>
         </nav>
         <div className="flex items-center gap-3">
-          <a className="text-sm font-semibold text-stone-700" href="/login">
-            Login
-          </a>
-          <a
-            className="rounded-full border border-stone-200 bg-white px-4 py-2 text-sm font-semibold text-stone-700 hover:bg-stone-50"
-            href="/register"
-          >
-            Register
-          </a>
-          <button className="rounded-full bg-[#6b705c] px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-[#5d6250]">
-            Cart (2)
-          </button>
+          <AuthActions />
         </div>
       </header>
 

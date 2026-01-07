@@ -14,10 +14,14 @@ class UserRepository:
     def get_by_email(self, email: str) -> Optional[UserCredential]:
         return self.db.query(UserCredential).filter(UserCredential.email == email).first()
 
+    def get_by_id(self, user_id: int) -> Optional[UserCredential]:
+        return self.db.query(UserCredential).filter(UserCredential.id == user_id).first()
+
     def create(self, user_in: UserCreate) -> UserCredential:
         db_user = UserCredential(
             email=user_in.email,
             hashed_password=hash_password(user_in.password),
+            role=user_in.role,
         )
         self.db.add(db_user)
         self.db.commit()
