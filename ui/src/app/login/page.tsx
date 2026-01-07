@@ -1,4 +1,8 @@
+ "use client";
+
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState, type FormEvent } from "react";
 
 import { AuthShell } from "@/components/layout/auth-shell";
 import { Button } from "@/components/ui/button";
@@ -6,6 +10,56 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
 export default function LoginPage() {
+  const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setErrorMessage(null);
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const email = String(formData.get("email") || "").trim();
+    const password = String(formData.get("password") || "");
+
+    if (!email || !password) {
+      setErrorMessage("Please enter an email and password.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const baseUrl = process.env.NEXT_PUBLIC_AUTH_API_URL;
+      const response = await fetch(`${baseUrl}/auth/login`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        const payload = await response.json().catch(() => null);
+        const detail =
+          payload?.detail || payload?.message || "Login failed. Please try again.";
+        setErrorMessage(detail);
+        return;
+      }
+
+      await response.json().catch(() => null);
+      form.reset();
+      router.push("/");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Unknown error";
+      console.error("Login failed:", error);
+      setErrorMessage(`Unable to reach the auth service. ${message}`);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <AuthShell gridClassName="max-w-3xl">
       <div className="flex flex-col justify-center gap-6">
@@ -40,7 +94,7 @@ export default function LoginPage() {
           </span>
         </CardHeader>
         <CardContent className="pt-6">
-          <form className="grid gap-4">
+          <form className="grid gap-4" onSubmit={handleSubmit}>
             <label className="grid gap-2 text-sm font-medium text-zinc-700">
               Email
               <Input
@@ -63,6 +117,11 @@ export default function LoginPage() {
                 required
               />
             </label>
+            {errorMessage ? (
+              <p className="rounded-2xl border border-rose-200 bg-rose-50 px-3 py-2 text-xs text-rose-700">
+                {errorMessage}
+              </p>
+            ) : null}
             <div className="flex items-center justify-between text-sm text-zinc-600">
               <label className="flex items-center gap-2">
                 <input
@@ -79,8 +138,12 @@ export default function LoginPage() {
                 Forgot password?
               </button>
             </div>
-            <Button className="mt-2 w-full rounded-2xl" type="submit">
-              Continue
+            <Button
+              className="mt-2 w-full rounded-2xl"
+              type="submit"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Signing in..." : "Continue"}
             </Button>
           </form>
           <p className="mt-6 text-xs text-zinc-500">
