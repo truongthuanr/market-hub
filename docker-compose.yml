@@ -27,6 +27,19 @@ services:
     ports:
       - "8001:8000"
 
+  catalog-service:
+    build:
+      context: ./catalog-service
+      dockerfile: Dockerfile
+    container_name: catalog-service
+    env_file:
+      - ./catalog-service/catalog.env
+    depends_on:
+      markethub-db:
+        condition: service_healthy
+    ports:
+      - "8002:8000"
+
   markethub-db:
     image: mysql:8.0
     container_name: markethub-db
@@ -35,7 +48,7 @@ services:
       - ./.env
       # - ./auth-service/auth.env
       # - ./payment-service/payment.env
-      # - ./catalog-service/catalog.env
+      - ./catalog-service/catalog.env
       # - ./commerce-service/commerce.env
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
