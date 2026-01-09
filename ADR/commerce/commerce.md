@@ -2,7 +2,8 @@
 Commerce service owns the transactional purchase flow: carts, checkout, orders,
 and promotions. It must coordinate with Auth (identity), Catalog (product data),
 and Payment (charge/refund) while keeping order creation consistent and
-idempotent. The project already uses a shared MySQL instance and Redis.
+idempotent. The project already uses a shared MySQL instance and will run
+Redis and Kafka as shared infrastructure containers.
 
 ## Decision
 Framework and data:
@@ -11,6 +12,9 @@ Framework and data:
 - ORM: SQLAlchemy 2.0 async with `asyncmy` driver.
 - Database: same MySQL instance, new schema.
 - Cache/session: Redis for carts and checkout sessions.
+Infrastructure:
+- Redis: shared container for carts and sessions.
+- Kafka: KRaft mode (no ZooKeeper) for order events.
 
 Workflow and reliability:
 - Use idempotency keys on checkout/order creation.
@@ -22,7 +26,7 @@ API contract:
 - Error format: RFC7807 (Problem Details), no custom envelope.
 
 Auth and permissions:
-- Use Auth service JWT; roles: customer, admin, support.
+- Use Auth service session cookie; roles: customer, admin, support.
 - Scope carts/orders by `user_id`.
 
 ## Consequences

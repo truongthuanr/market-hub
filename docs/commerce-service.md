@@ -11,6 +11,8 @@ last_updated: 2025-01-08
 - Purpose: manage cart, checkout, orders, and promotions.
 - Primary consumers: UI, Admin users, Payment service, Catalog service.
 - Data ownership: commerce domain only.
+- Shared infra: Redis (carts/sessions) and Kafka (order events) as standalone
+  containers.
 
 ## 2. Responsibilities
 - Cart lifecycle (add/update/remove items, price refresh).
@@ -29,9 +31,9 @@ last_updated: 2025-01-08
 - ORM: SQLAlchemy 2.0 async.
 - DB: MySQL (shared instance, new schema).
 - Cache/session: Redis (cart + checkout session).
-- Messaging: Kafka (order events via outbox).
+- Messaging: Kafka KRaft (order events via outbox).
 - API contract: OpenAPI + `/v1` versioning.
-- Auth: JWT from Auth service; RBAC (customer/admin/support).
+- Auth: session cookie from Auth service; RBAC (customer/admin/support).
 
 ## 5. Core Functions (Draft)
 ### 5.1 Cart
@@ -87,7 +89,7 @@ last_updated: 2025-01-08
 - JSON logs with `request_id`, `user_id`, `order_id`.
 - Metrics: checkout conversion, promo success rate, order latency, failure rate.
 
-## 10. Open Questions
-- Guest checkout vs required login.
-- Price locking: use current price vs snapshot at add-to-cart.
-- Partial fulfillment and multi-warehouse support.
+## 10. Decisions (Confirmed)
+- Guest flows are not supported; login required for cart, checkout, and orders.
+- Price is locked when the order is created.
+- Multi-warehouse/partial fulfillment is out of scope for now.

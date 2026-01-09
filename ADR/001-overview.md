@@ -15,7 +15,9 @@ separate domains for identity, commerce, catalog, payments, and a user-facing
 UI. The primary goals are to keep domain logic isolated, enable independent
 delivery per service, and provide a cohesive user experience across the
 system. Key constraints include clear service boundaries, stable inter-service
-contracts, and consistent auth and error handling across services.
+contracts, and consistent auth and error handling across services. Shared
+infrastructure includes MySQL, Redis for caching/sessions, and Kafka (KRaft)
+for domain events.
 
 ## Decision
 
