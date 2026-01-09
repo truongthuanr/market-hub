@@ -32,7 +32,7 @@ last_updated: 2025-01-08
 - Auth: JWT from Auth service; RBAC (admin/editor/viewer).
 
 ## 5. Data Model (Draft)
-- product(id, name, slug, description, status, created_at, updated_at)
+- product(id, seller_id, name, slug, description, status, created_at, updated_at)
 - category(id, name, slug, parent_id, created_at, updated_at)
 - product_variant(id, product_id, sku, price, status)
 - attribute(id, name)
@@ -67,6 +67,7 @@ last_updated: 2025-01-08
 - Admin: full CRUD.
 - Editor: create/update, no delete.
 - Viewer: read-only.
+- Seller scope: `seller_id` ties products to Auth service users with role `seller`.
 
 ## 11. Observability
 - JSON logs with `request_id` and `user_id`.

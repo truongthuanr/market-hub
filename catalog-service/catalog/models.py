@@ -23,8 +23,9 @@ class Product(models.Model):
         PUBLISHED = "published", "Published"
         ARCHIVED = "archived", "Archived"
 
+    seller_id = models.BigIntegerField()
     name = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, unique=True)
+    slug = models.SlugField(max_length=255)
     description = models.TextField(blank=True)
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.DRAFT)
     category = models.ForeignKey(
@@ -35,6 +36,12 @@ class Product(models.Model):
 
     class Meta:
         ordering = ["name"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=["seller_id", "slug"],
+                name="uniq_product_seller_slug",
+            )
+        ]
 
     def __str__(self) -> str:
         return self.name
@@ -46,9 +53,17 @@ class ProductVariant(models.Model):
         INACTIVE = "inactive", "Inactive"
 
     product = models.ForeignKey(Product, related_name="variants", on_delete=models.CASCADE)
-    sku = models.CharField(max_length=64, unique=True)
+    sku = models.CharField(max_length=64)
     price = models.DecimalField(max_digits=12, decimal_places=2)
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.ACTIVE)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["product", "sku"],
+                name="uniq_variant_product_sku",
+            )
+        ]
 
     def __str__(self) -> str:
         return self.sku
