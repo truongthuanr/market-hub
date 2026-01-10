@@ -82,10 +82,10 @@ last_updated: 2025-01-10
 - 401/403 -> redirect to login or show access denied.
 
 ## 10. Environment Variables (Draft)
-- `NEXT_PUBLIC_AUTH_API_BASE`
-- `NEXT_PUBLIC_CATALOG_API_BASE`
-- `NEXT_PUBLIC_COMMERCE_API_BASE`
-- `NEXT_PUBLIC_PAYMENT_API_BASE`
+- `NEXT_PUBLIC_AUTH_API_URL`
+- `NEXT_PUBLIC_CATALOG_API_URL`
+- `NEXT_PUBLIC_COMMERCE_API_URL`
+- `NEXT_PUBLIC_PAYMENT_API_URL`
 
 ## 11. Observability
 - Frontend logging with `request_id` correlation when present.
