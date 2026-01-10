@@ -57,6 +57,21 @@ services:
     ports:
       - "8003:8000"
 
+  payment-service:
+    build:
+      context: ./payment-service
+      dockerfile: Dockerfile
+    container_name: payment-service
+    env_file:
+      - ./payment-service/payment.env
+    depends_on:
+      markethub-db:
+        condition: service_healthy
+      kafka:
+        condition: service_started
+    ports:
+      - "8004:8000"
+
   redis:
     image: redis:7-alpine
     container_name: markethub-redis
@@ -85,7 +100,7 @@ services:
     env_file:
       - ./.env
       # - ./auth-service/auth.env
-      # - ./payment-service/payment.env
+      - ./payment-service/payment.env
       - ./catalog-service/catalog.env
       # - ./commerce-service/commerce.env
     environment:

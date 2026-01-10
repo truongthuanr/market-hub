@@ -1,0 +1,9 @@
+starlette==0.37.2
+uvicorn[standard]==0.30.0
+sqlalchemy==2.0.31
+asyncmy==0.2.9
+cryptography==42.0.8
+msgspec==0.18.6
+pydantic-settings==2.5.2
+python-dotenv==1.0.1
+aiokafka==0.10.0
