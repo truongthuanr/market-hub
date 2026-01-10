@@ -40,6 +40,44 @@ services:
     ports:
       - "8002:8000"
 
+  commerce-service:
+    build:
+      context: ./commerce-service
+      dockerfile: Dockerfile
+    container_name: commerce-service
+    env_file:
+      - ./commerce-service/commerce.env
+    depends_on:
+      markethub-db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      kafka:
+        condition: service_started
+    ports:
+      - "8003:8000"
+
+  redis:
+    image: redis:7-alpine
+    container_name: markethub-redis
+    ports:
+      - "6379:6379"
+
+  kafka:
+    image: apache/kafka:3.7.1
+    container_name: markethub-kafka
+    environment:
+      - KAFKA_NODE_ID=1
+      - KAFKA_PROCESS_ROLES=broker,controller
+      - KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_CONTROLLER_QUORUM_VOTERS=1@kafka:9093
+      - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+    ports:
+      - "9092:9092"
+
   markethub-db:
     image: mysql:8.0
     container_name: markethub-db
