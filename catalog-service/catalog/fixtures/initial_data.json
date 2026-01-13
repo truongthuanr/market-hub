@@ -1,0 +1,68 @@
+[
+  {
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+      "name": "Packaging + Shipping",
+      "slug": "packaging-shipping",
+      "parent": null,
+      "created_at": "2026-01-13T15:51:17Z",
+      "updated_at": "2026-01-13T15:51:17Z"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+      "name": "Home & Kitchen",
+      "slug": "home-kitchen",
+      "parent": null,
+      "created_at": "2026-01-13T15:51:17Z",
+      "updated_at": "2026-01-13T15:51:17Z"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+      "name": "Electronics",
+      "slug": "electronics",
+      "parent": null,
+      "created_at": "2026-01-13T15:51:17Z",
+      "updated_at": "2026-01-13T15:51:17Z"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 4,
+    "fields": {
+      "name": "Beauty & Wellness",
+      "slug": "beauty-wellness",
+      "parent": null,
+      "created_at": "2026-01-13T15:51:17Z",
+      "updated_at": "2026-01-13T15:51:17Z"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 5,
+    "fields": {
+      "name": "Office Essentials",
+      "slug": "office-essentials",
+      "parent": null,
+      "created_at": "2026-01-13T15:51:17Z",
+      "updated_at": "2026-01-13T15:51:17Z"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 6,
+    "fields": {
+      "name": "Outdoor & Garden",
+      "slug": "outdoor-garden",
+      "parent": null,
+      "created_at": "2026-01-13T15:51:17Z",
+      "updated_at": "2026-01-13T15:51:17Z"
+    }
+  }
+]

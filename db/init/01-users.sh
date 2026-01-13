@@ -17,7 +17,10 @@ set -e
 : "${AUTH_DB_USER:=auth_user}"
 : "${AUTH_DB_PASSWORD:=auth_pw}"
 
-mysql -uroot -p"$MYSQL_ROOT_PASSWORD" <<SQL
+export MYSQL_HOST=localhost
+unset MYSQL_TCP_PORT
+
+mysql -h localhost -uroot -p"$MYSQL_ROOT_PASSWORD" -S /var/run/mysqld/mysqld.sock <<SQL
 CREATE DATABASE IF NOT EXISTS \`${CATALOG_DB_NAME}\`;
 CREATE USER IF NOT EXISTS '${CATALOG_DB_USER}'@'%' IDENTIFIED BY '${CATALOG_DB_PASSWORD}';
 GRANT ALL PRIVILEGES ON \`${CATALOG_DB_NAME}\`.* TO '${CATALOG_DB_USER}'@'%';
