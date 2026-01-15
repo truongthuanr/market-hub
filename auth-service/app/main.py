@@ -1,7 +1,5 @@
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from starlette.middleware.sessions import SessionMiddleware
 
 from app.api.auth_router import router as auth_router
 from app.core.config import settings
@@ -18,12 +16,6 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
-)
-app.add_middleware(
-    SessionMiddleware,
-    secret_key=settings.secret_key,
-    session_cookie=settings.session_cookie_name,
-    same_site=settings.session_cookie_same_site,
 )
 
 app.include_router(auth_router)

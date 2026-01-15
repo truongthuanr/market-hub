@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { getAuthHeaders } from "@/lib/auth";
 import { getServiceBaseUrl } from "@/lib/services";
 import type { CartItem } from "@/lib/types";
 
@@ -29,9 +30,9 @@ export function CartItemRow({ cartId, item, productName }: CartItemRowProps) {
         `${commerceBase}/v1/carts/${cartId}/items/${item.id}`,
         {
           method: "PATCH",
-          credentials: "include",
           headers: {
             "Content-Type": "application/json",
+            ...getAuthHeaders(),
           },
           body: JSON.stringify({ qty }),
         },
@@ -60,7 +61,7 @@ export function CartItemRow({ cartId, item, productName }: CartItemRowProps) {
         `${commerceBase}/v1/carts/${cartId}/items/${item.id}`,
         {
           method: "DELETE",
-          credentials: "include",
+          headers: getAuthHeaders(),
         },
       );
       if (!response.ok && response.status !== 204) {

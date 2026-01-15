@@ -3,6 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+import { clearAuthToken } from "@/lib/auth";
+
 export function LogoutButton() {
   const router = useRouter();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -13,11 +15,7 @@ export function LogoutButton() {
     }
     setIsLoggingOut(true);
     try {
-      const baseUrl = process.env.NEXT_PUBLIC_AUTH_API_URL;
-      await fetch(`${baseUrl}/auth/logout`, {
-        method: "POST",
-        credentials: "include",
-      });
+      clearAuthToken();
     } catch (error) {
       console.error("Logout failed:", error);
     } finally {

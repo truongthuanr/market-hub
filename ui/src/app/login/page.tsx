@@ -8,6 +8,7 @@ import { AuthShell } from "@/components/layout/auth-shell";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { setAuthToken } from "@/lib/auth";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -33,7 +34,6 @@ export default function LoginPage() {
       const baseUrl = process.env.NEXT_PUBLIC_AUTH_API_URL;
       const response = await fetch(`${baseUrl}/auth/login`, {
         method: "POST",
-        credentials: "include",
         headers: {
           "Content-Type": "application/json",
         },
@@ -48,7 +48,14 @@ export default function LoginPage() {
         return;
       }
 
-      await response.json().catch(() => null);
+      const payload = (await response.json().catch(() => null)) as
+        | { access_token?: string }
+        | null;
+      if (!payload?.access_token) {
+        setErrorMessage("Login failed. Token is missing.");
+        return;
+      }
+      setAuthToken(payload.access_token);
       form.reset();
       router.push("/");
     } catch (error) {
