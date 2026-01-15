@@ -1,6 +1,33 @@
 import { AuthActions } from "@/components/auth/auth-actions";
+import { fetchAllPages } from "@/lib/http";
+import { getServiceBaseUrl } from "@/lib/services";
+import type { CatalogCategory } from "@/lib/types";
 
-export default function Home() {
+async function loadCategories(): Promise<CatalogCategory[]> {
+  const catalogBase = getServiceBaseUrl("catalog");
+  return fetchAllPages<CatalogCategory>(`${catalogBase}/v1/categories/`, {
+    cache: "no-store",
+  });
+}
+
+function resolveCategoryImageUrl(
+  catalogBase: string,
+  image: string | null,
+): string | null {
+  if (!image) {
+    return null;
+  }
+  if (image.startsWith("http://") || image.startsWith("https://")) {
+    return image;
+  }
+  const normalized = image.startsWith("/") ? image : `/${image}`;
+  return `${catalogBase}${normalized}`;
+}
+
+export default async function Home() {
+  const catalogBase = getServiceBaseUrl("catalog");
+  const categories = await loadCategories();
+
   return (
     <div className="page-surface">
       <header className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-6">
@@ -86,28 +113,37 @@ export default function Home() {
               id="categories"
               className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
             >
-              {[
-                "Packaging + Shipping",
-                "Home & Kitchen",
-                "Electronics",
-                "Beauty & Wellness",
-                "Office Essentials",
-                "Outdoor & Garden",
-              ].map((category, index) => (
-                <div
-                  key={category}
-                  className="flex min-h-[160px] flex-col justify-between rounded-3xl border border-white/70 bg-white/80 p-4 shadow-sm backdrop-blur"
-                >
-                  <span className="text-xs font-semibold text-stone-500">
-                    0{index + 1}
-                  </span>
-                  <p className="text-lg font-semibold text-stone-900">
-                    {category}
-                  </p>
-                  <p className="text-xs text-stone-500">Updated today</p>
-                </div>
-              ))}
-              <div className="flex min-h-[160px] flex-col justify-between rounded-3xl border border-white/70 bg-[#b08968] p-4 text-white shadow-sm">
+              {categories.map((category, index) => {
+                const imageUrl = resolveCategoryImageUrl(
+                  catalogBase,
+                  category.image,
+                );
+
+                return (
+                  <div
+                    key={category.id}
+                    className="flex min-h-[160px] flex-col justify-between rounded-3xl border border-white/70 bg-white/80 p-4 shadow-sm backdrop-blur"
+                    style={
+                      imageUrl
+                        ? {
+                            backgroundImage: `url(${imageUrl})`,
+                            backgroundSize: "cover",
+                            backgroundPosition: "center",
+                          }
+                        : undefined
+                    }
+                  >
+                    <span className="text-xs font-semibold text-stone-500">
+                      0{index + 1}
+                    </span>
+                    <p className="text-lg font-semibold text-stone-900">
+                      {category.name}
+                    </p>
+                    <p className="text-xs text-stone-500">Updated today</p>
+                  </div>
+                );
+              })}
+              {/* <div className="flex min-h-[160px] flex-col justify-between rounded-3xl border border-white/70 bg-[#b08968] p-4 text-white shadow-sm">
                 <span className="text-xs font-semibold text-white/80">
                   Featured
                 </span>
@@ -117,7 +153,7 @@ export default function Home() {
                 <button className="text-left text-xs font-semibold text-white/90">
                   Explore collection
                 </button>
-              </div>
+              </div> */}
             </div>
           </div>
 

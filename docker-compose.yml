@@ -4,6 +4,8 @@ services:
       context: ./ui
       dockerfile: Dockerfile
     container_name: markethub-ui
+    env_file:
+      - ./ui/.env
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true

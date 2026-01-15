@@ -2,6 +2,7 @@ export type CatalogCategory = {
   id: number;
   name: string;
   slug: string;
+  image: string | null;
   parent: number | null;
   created_at: string;
   updated_at: string;
