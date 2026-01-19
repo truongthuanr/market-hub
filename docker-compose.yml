@@ -4,6 +4,8 @@ services:
       context: ./ui
       dockerfile: Dockerfile
     container_name: markethub-ui
+    env_file:
+      - ./ui/.env
     environment:
       - NODE_ENV=development
       - CHOKIDAR_USEPOLLING=true
@@ -39,6 +41,9 @@ services:
         condition: service_healthy
     ports:
       - "8002:8000"
+    volumes:
+      - ./catalog-service:/app
+      - ./catalog-service/media:/app/media
 
   commerce-service:
     build:

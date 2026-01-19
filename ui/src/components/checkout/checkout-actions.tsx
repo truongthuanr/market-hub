@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { getAuthHeaders } from "@/lib/auth";
 import { getServiceBaseUrl } from "@/lib/services";
 
 type CheckoutActionsProps = {
@@ -47,10 +48,10 @@ export function CheckoutActions({
 
       const checkoutResponse = await fetch(`${commerceBase}/v1/checkouts`, {
         method: "POST",
-        credentials: "include",
         headers: {
           "Content-Type": "application/json",
           "Idempotency-Key": idempotencyKey,
+          ...getAuthHeaders(),
         },
         body: JSON.stringify({ cart_id: cartId }),
       });
@@ -72,6 +73,7 @@ export function CheckoutActions({
         headers: {
           "Content-Type": "application/json",
           "Idempotency-Key": idempotencyKey,
+          ...getAuthHeaders(),
         },
         body: JSON.stringify({
           amount: Math.round(totalValue),

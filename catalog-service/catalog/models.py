@@ -1,9 +1,19 @@
+import os
+import uuid
+
 from django.db import models
+
+
+def category_image_path(instance: "Category", filename: str) -> str:
+    ext = os.path.splitext(filename)[1].lower() or ".jpg"
+    slug = instance.slug or "category"
+    return f"categories/{slug}-{uuid.uuid4().hex}{ext}"
 
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255, unique=True)
+    image = models.ImageField(upload_to=category_image_path, blank=True, null=True)
     parent = models.ForeignKey(
         "self", null=True, blank=True, related_name="children", on_delete=models.SET_NULL
     )
