@@ -16,7 +16,22 @@ export type ServiceName = keyof typeof envMap;
 
 export function getServiceBaseUrl(service: ServiceName): string {
   const isServer = typeof window === "undefined";
-  const envKey = isServer ? serverEnvMap[service] : envMap[service];
+  const publicEnvKey = envMap[service];
+  const serverEnvKey = serverEnvMap[service];
+  const value = isServer
+    ? process.env[serverEnvKey] || process.env[publicEnvKey]
+    : process.env[publicEnvKey];
+  if (!value) {
+    throw new Error(
+      `${publicEnvKey} is not set.` +
+        (isServer ? ` (or ${serverEnvKey} for server runtime).` : ""),
+    );
+  }
+  return value.replace(/\/+$/, "");
+}
+
+export function getPublicServiceBaseUrl(service: ServiceName): string {
+  const envKey = envMap[service];
   const value = process.env[envKey];
   if (!value) {
     throw new Error(`${envKey} is not set.`);

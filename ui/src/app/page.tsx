@@ -1,10 +1,11 @@
 import { AuthActions } from "@/components/auth/auth-actions";
 import { fetchAllPages } from "@/lib/http";
-import { getServiceBaseUrl } from "@/lib/services";
+import { getPublicServiceBaseUrl, getServiceBaseUrl } from "@/lib/services";
 import type { CatalogCategory } from "@/lib/types";
 
 async function loadCategories(): Promise<CatalogCategory[]> {
   const catalogBase = getServiceBaseUrl("catalog");
+  console.log("Catalog Base URL:", catalogBase);
   return fetchAllPages<CatalogCategory>(`${catalogBase}/v1/categories/`, {
     cache: "no-store",
   });
@@ -18,7 +19,12 @@ function resolveCategoryImageUrl(
     return null;
   }
   if (image.startsWith("http://") || image.startsWith("https://")) {
-    return image;
+    try {
+      const parsed = new URL(image);
+      return `${catalogBase}${parsed.pathname}${parsed.search}`;
+    } catch {
+      return image;
+    }
   }
   const normalized = image.startsWith("/") ? image : `/${image}`;
   return `${catalogBase}${normalized}`;
@@ -26,6 +32,7 @@ function resolveCategoryImageUrl(
 
 export default async function Home() {
   const catalogBase = getServiceBaseUrl("catalog");
+  const catalogPublicBase = getPublicServiceBaseUrl("catalog");
   const categories = await loadCategories();
 
   return (
@@ -115,14 +122,15 @@ export default async function Home() {
             >
               {categories.map((category, index) => {
                 const imageUrl = resolveCategoryImageUrl(
-                  catalogBase,
+                  catalogPublicBase,
                   category.image,
                 );
 
                 return (
                   <div
                     key={category.id}
-                    className="flex min-h-[160px] flex-col justify-between rounded-3xl border border-white/70 bg-white/80 p-4 shadow-sm backdrop-blur"
+                    className="relative flex min-h-[160px] flex-col justify-between overflow-hidden 
+                    rounded-3xl border border-white/70 bg-white/80 p-4 shadow-sm"
                     style={
                       imageUrl
                         ? {
@@ -133,13 +141,23 @@ export default async function Home() {
                         : undefined
                     }
                   >
-                    <span className="text-xs font-semibold text-stone-500">
+                    {imageUrl ? (
+                      <>
+                        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t 
+                        from-white/90 via-white/30 to-white/10" />
+                        <div className="pointer-events-none absolute inset-0 
+                        bg-white/10 backdrop-blur-[1px]" />
+                      </>
+                    ) : null}
+                    <span className="relative z-10 text-xs font-semibold text-stone-500">
                       0{index + 1}
                     </span>
-                    <p className="text-lg font-semibold text-stone-900">
+                    <div className="relative z-10 inline-flex max-w-[85%] items-center rounded-2xl bg-[#e9e2d4]/80 px-3 py-2 text-sm font-semibold text-stone-900 shadow-sm">
                       {category.name}
+                    </div>
+                    <p className="relative z-10 text-xs text-stone-500">
+                      Updated today
                     </p>
-                    <p className="text-xs text-stone-500">Updated today</p>
                   </div>
                 );
               })}
