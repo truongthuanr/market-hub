@@ -1,0 +1,409 @@
+[
+  {
+    "model": "catalog.product",
+    "pk": 1,
+    "fields": {
+      "seller_id": 1001,
+      "name": "Wireless Headphones",
+      "slug": "wireless-headphones",
+      "description": "Over-ear wireless headphones with noise isolation.",
+      "status": "published",
+      "category": 3,
+      "created_at": "2026-01-21T08:00:00Z",
+      "updated_at": "2026-01-21T08:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+      "seller_id": 1001,
+      "name": "Slim Phone Case",
+      "slug": "slim-phone-case",
+      "description": "Durable TPU case with slim profile.",
+      "status": "published",
+      "category": 5,
+      "created_at": "2026-01-21T08:00:00Z",
+      "updated_at": "2026-01-21T08:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 3,
+    "fields": {
+      "seller_id": 1002,
+      "name": "Linen T-Shirt",
+      "slug": "linen-tshirt",
+      "description": "Lightweight linen blend tee for everyday wear.",
+      "status": "draft",
+      "category": 6,
+      "created_at": "2026-01-21T08:00:00Z",
+      "updated_at": "2026-01-21T08:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 1,
+    "fields": {
+      "product": 1,
+      "sku": "WH-001-BLK",
+      "price": "89.99",
+      "status": "active"
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 2,
+    "fields": {
+      "product": 1,
+      "sku": "WH-001-WHT",
+      "price": "89.99",
+      "status": "active"
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 3,
+    "fields": {
+      "product": 2,
+      "sku": "PC-001-BLK",
+      "price": "14.99",
+      "status": "active"
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 4,
+    "fields": {
+      "product": 3,
+      "sku": "LT-001-S",
+      "price": "24.00",
+      "status": "active"
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 5,
+    "fields": {
+      "product": 3,
+      "sku": "LT-001-M",
+      "price": "24.00",
+      "status": "active"
+    }
+  },
+  {
+    "model": "catalog.attribute",
+    "pk": 1,
+    "fields": {
+      "name": "Color"
+    }
+  },
+  {
+    "model": "catalog.attribute",
+    "pk": 2,
+    "fields": {
+      "name": "Size"
+    }
+  },
+  {
+    "model": "catalog.attribute",
+    "pk": 3,
+    "fields": {
+      "name": "Material"
+    }
+  },
+  {
+    "model": "catalog.productattribute",
+    "pk": 1,
+    "fields": {
+      "product": 1,
+      "attribute": 3,
+      "value": "Plastic"
+    }
+  },
+  {
+    "model": "catalog.productattribute",
+    "pk": 2,
+    "fields": {
+      "product": 2,
+      "attribute": 1,
+      "value": "Black"
+    }
+  },
+  {
+    "model": "catalog.productattribute",
+    "pk": 3,
+    "fields": {
+      "product": 3,
+      "attribute": 2,
+      "value": "S/M/L"
+    }
+  },
+  {
+    "model": "catalog.productimage",
+    "pk": 1,
+    "fields": {
+      "product": 1,
+      "url": "https://images.example.com/products/headphones-1.jpg",
+      "position": 1
+    }
+  },
+  {
+    "model": "catalog.productimage",
+    "pk": 2,
+    "fields": {
+      "product": 1,
+      "url": "https://images.example.com/products/headphones-2.jpg",
+      "position": 2
+    }
+  },
+  {
+    "model": "catalog.productimage",
+    "pk": 3,
+    "fields": {
+      "product": 2,
+      "url": "https://images.example.com/products/phone-case-1.jpg",
+      "position": 1
+    }
+  },
+  {
+    "model": "catalog.productimage",
+    "pk": 4,
+    "fields": {
+      "product": 3,
+      "url": "https://images.example.com/products/linen-tee-1.jpg",
+      "position": 1
+    }
+  }
+  ,
+  {
+    "model": "catalog.product",
+    "pk": 4,
+    "fields": {
+      "seller_id": 1003,
+      "name": "Áo Khoác Gió",
+      "slug": "ao-khoac-gio",
+      "description": "Áo khoác gió nhẹ, chống thấm nước.",
+      "status": "published",
+      "category": 6,
+      "created_at": "2026-01-21T08:00:00Z",
+      "updated_at": "2026-01-21T08:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 5,
+    "fields": {
+      "seller_id": 1003,
+      "name": "Giày Thể Thao Nam",
+      "slug": "giay-the-thao-nam",
+      "description": "Giày chạy bộ êm chân, đế bám tốt.",
+      "status": "published",
+      "category": 6,
+      "created_at": "2026-01-21T08:00:00Z",
+      "updated_at": "2026-01-21T08:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 6,
+    "fields": {
+      "seller_id": 1004,
+      "name": "Tai Nghe Bluetooth",
+      "slug": "tai-nghe-bluetooth",
+      "description": "Tai nghe Bluetooth pin trâu, âm bass mạnh.",
+      "status": "published",
+      "category": 3,
+      "created_at": "2026-01-21T08:00:00Z",
+      "updated_at": "2026-01-21T08:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 7,
+    "fields": {
+      "seller_id": 1004,
+      "name": "Ốp Lưng iPhone",
+      "slug": "op-lung-iphone",
+      "description": "Ốp lưng trong suốt, chống sốc.",
+      "status": "published",
+      "category": 5,
+      "created_at": "2026-01-21T08:00:00Z",
+      "updated_at": "2026-01-21T08:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 8,
+    "fields": {
+      "seller_id": 1005,
+      "name": "Balo Du Lịch",
+      "slug": "balo-du-lich",
+      "description": "Balo chống nước, nhiều ngăn tiện dụng.",
+      "status": "draft",
+      "category": 6,
+      "created_at": "2026-01-21T08:00:00Z",
+      "updated_at": "2026-01-21T08:00:00Z"
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 6,
+    "fields": {
+      "product": 4,
+      "sku": "AKG-001-M",
+      "price": "39.00",
+      "status": "active"
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 7,
+    "fields": {
+      "product": 4,
+      "sku": "AKG-001-L",
+      "price": "39.00",
+      "status": "active"
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 8,
+    "fields": {
+      "product": 5,
+      "sku": "GTN-001-42",
+      "price": "59.00",
+      "status": "active"
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 9,
+    "fields": {
+      "product": 5,
+      "sku": "GTN-001-43",
+      "price": "59.00",
+      "status": "active"
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 10,
+    "fields": {
+      "product": 6,
+      "sku": "TNB-001-BLK",
+      "price": "29.50",
+      "status": "active"
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 11,
+    "fields": {
+      "product": 7,
+      "sku": "OLI-001-CLR",
+      "price": "9.90",
+      "status": "active"
+    }
+  },
+  {
+    "model": "catalog.productvariant",
+    "pk": 12,
+    "fields": {
+      "product": 8,
+      "sku": "BDL-001-BLK",
+      "price": "45.00",
+      "status": "active"
+    }
+  },
+  {
+    "model": "catalog.productattribute",
+    "pk": 4,
+    "fields": {
+      "product": 4,
+      "attribute": 2,
+      "value": "M/L"
+    }
+  },
+  {
+    "model": "catalog.productattribute",
+    "pk": 5,
+    "fields": {
+      "product": 5,
+      "attribute": 2,
+      "value": "42/43"
+    }
+  },
+  {
+    "model": "catalog.productattribute",
+    "pk": 6,
+    "fields": {
+      "product": 6,
+      "attribute": 1,
+      "value": "Đen"
+    }
+  },
+  {
+    "model": "catalog.productattribute",
+    "pk": 7,
+    "fields": {
+      "product": 7,
+      "attribute": 1,
+      "value": "Trong suốt"
+    }
+  },
+  {
+    "model": "catalog.productattribute",
+    "pk": 8,
+    "fields": {
+      "product": 8,
+      "attribute": 3,
+      "value": "Polyester"
+    }
+  },
+  {
+    "model": "catalog.productimage",
+    "pk": 5,
+    "fields": {
+      "product": 4,
+      "url": "https://images.example.com/products/ao-khoac-gio-1.jpg",
+      "position": 1
+    }
+  },
+  {
+    "model": "catalog.productimage",
+    "pk": 6,
+    "fields": {
+      "product": 5,
+      "url": "https://images.example.com/products/giay-the-thao-1.jpg",
+      "position": 1
+    }
+  },
+  {
+    "model": "catalog.productimage",
+    "pk": 7,
+    "fields": {
+      "product": 6,
+      "url": "https://images.example.com/products/tai-nghe-1.jpg",
+      "position": 1
+    }
+  },
+  {
+    "model": "catalog.productimage",
+    "pk": 8,
+    "fields": {
+      "product": 7,
+      "url": "https://images.example.com/products/op-lung-1.jpg",
+      "position": 1
+    }
+  },
+  {
+    "model": "catalog.productimage",
+    "pk": 9,
+    "fields": {
+      "product": 8,
+      "url": "https://images.example.com/products/balo-1.jpg",
+      "position": 1
+    }
+  }
+]
