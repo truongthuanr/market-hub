@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { AuthActions } from "@/components/auth/auth-actions";
 import { fetchAllPages } from "@/lib/http";
 import { getPublicServiceBaseUrl, getServiceBaseUrl } from "@/lib/services";
@@ -127,10 +129,11 @@ export default async function Home() {
                 );
 
                 return (
-                  <div
+                  <Link
                     key={category.id}
                     className="relative flex min-h-[160px] flex-col justify-between overflow-hidden 
-                    rounded-3xl border border-white/70 bg-white/80 p-4 shadow-sm"
+                    rounded-3xl border border-white/70 bg-white/80 p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                    href={`/category/${category.slug}`}
                     style={
                       imageUrl
                         ? {
@@ -158,7 +161,7 @@ export default async function Home() {
                     <p className="relative z-10 text-xs text-stone-500">
                       Updated today
                     </p>
-                  </div>
+                  </Link>
                 );
               })}
               {/* <div className="flex min-h-[160px] flex-col justify-between rounded-3xl border border-white/70 bg-[#b08968] p-4 text-white shadow-sm">

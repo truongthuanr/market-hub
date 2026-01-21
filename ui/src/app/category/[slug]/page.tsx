@@ -7,7 +7,7 @@ import { getServiceBaseUrl } from "@/lib/services";
 import type { CatalogCategory, CatalogProduct } from "@/lib/types";
 
 type CategoryPageProps = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
 async function loadCategoryAndProducts(slug: string) {
@@ -20,14 +20,14 @@ async function loadCategoryAndProducts(slug: string) {
     return { category: null, products: [] };
   }
   const products = await fetchAllPages<CatalogProduct>(
-    `${catalogBase}/v1/products/`,
+    `${catalogBase}/v1/products/?category_slug=${encodeURIComponent(slug)}`,
   );
-  const filtered = products.filter((product) => product.category === category.id);
-  return { category, products: filtered };
+  return { category, products };
 }
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
-  const { category, products } = await loadCategoryAndProducts(params.slug);
+  const { slug } = await params;
+  const { category, products } = await loadCategoryAndProducts(slug);
 
   if (!category) {
     notFound();

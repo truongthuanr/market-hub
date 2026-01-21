@@ -19,8 +19,17 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 
 class ProductViewSet(viewsets.ModelViewSet):
-    queryset = Product.objects.all().select_related("category")
     permission_classes = [AllowAny]
+
+    def get_queryset(self):
+        queryset = Product.objects.all().select_related("category")
+        category_id = self.request.query_params.get("category_id")
+        category_slug = self.request.query_params.get("category_slug")
+        if category_id:
+            return queryset.filter(category_id=category_id)
+        if category_slug:
+            return queryset.filter(category__slug=category_slug)
+        return queryset
 
     def get_serializer_class(self):
         if self.action == "retrieve":
