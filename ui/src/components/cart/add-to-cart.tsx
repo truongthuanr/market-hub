@@ -4,7 +4,6 @@ import { useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { getAuthHeaders } from "@/lib/auth";
 import { getServiceBaseUrl } from "@/lib/services";
 import type { CatalogVariant } from "@/lib/types";
 
@@ -36,7 +35,7 @@ export function AddToCart({ productId, variants }: AddToCartProps) {
       const commerceBase = getServiceBaseUrl("commerce");
       const cartResponse = await fetch(`${commerceBase}/v1/carts`, {
         method: "POST",
-        headers: getAuthHeaders(),
+        credentials: "include",
       });
       if (!cartResponse.ok) {
         throw new Error("Unable to access cart. Please sign in.");
@@ -52,9 +51,9 @@ export function AddToCart({ productId, variants }: AddToCartProps) {
         `${commerceBase}/v1/carts/${cart.id}/items`,
         {
           method: "POST",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
-            ...getAuthHeaders(),
           },
           body: JSON.stringify({
             product_id: productId,

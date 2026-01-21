@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { LogoutButton } from "@/components/auth/logout-button";
-import { clearAuthToken, getAuthToken } from "@/lib/auth";
 
 type AuthState = "unknown" | "authenticated" | "guest";
 
@@ -25,23 +24,14 @@ export function AuthActions() {
           setAuthState("guest");
           return;
         }
-        const token = getAuthToken();
-        if (!token) {
-          setUser(null);
-          setAuthState("guest");
-          return;
-        }
         const response = await fetch(`${baseUrl}/auth/me`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          credentials: "include",
         });
         if (response.ok) {
           const payload = (await response.json().catch(() => null)) as AuthUser | null;
           setUser(payload);
           setAuthState("authenticated");
         } else {
-          clearAuthToken();
           setUser(null);
           setAuthState("guest");
         }

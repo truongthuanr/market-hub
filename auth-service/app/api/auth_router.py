@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Response, status
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 
@@ -26,16 +26,25 @@ def register(user_in: UserCreate, db: Session = Depends(get_db)):
 
 
 @router.post("/login", response_model=Token)
-def login(user_in: UserLogin, db: Session = Depends(get_db)):
+def login(user_in: UserLogin, response: Response, db: Session = Depends(get_db)):
     service = AuthService(db)
     user = service.authenticate_user(user_in.email, user_in.password)
     if not user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
-    return service.create_token(user)
+    token = service.create_token(user)
+    response.set_cookie(
+        key="markethub_access_token",
+        value=token.access_token,
+        httponly=True,
+        samesite="lax",
+        path="/",
+    )
+    return token
 
 
 @router.post("/logout")
-def logout():
+def logout(response: Response):
+    response.delete_cookie(key="markethub_access_token", path="/")
     return {"detail": "Logged out"}
 
 
