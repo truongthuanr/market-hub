@@ -1,11 +1,20 @@
 from starlette.applications import Starlette
+from starlette.middleware.cors import CORSMiddleware
 
 from app.api.routes import router
 from app.db.base import Base
 from app.db.session import engine
 from app.kafka.publisher import OutboxPublisher
+from app.core.config import settings
 
 app = Starlette(routes=router.routes)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=settings.cors_origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 publisher = OutboxPublisher()
 

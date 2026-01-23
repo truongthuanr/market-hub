@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, Request, Response, status
 from sqlalchemy.orm import Session
 
 from app.core import security
+from app.core.config import settings
 from app.db.session import SessionLocal
 from app.services.auth_service import AuthService
 from app.schemas.user_schema import Token, UserCreate, UserLogin, UserOut
@@ -31,10 +32,11 @@ def login(user_in: UserLogin, response: Response, db: Session = Depends(get_db))
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
     token = service.create_token(user)
     response.set_cookie(
-        key="markethub_access_token",
+        key=settings.access_token_cookie_name,
         value=token.access_token,
         httponly=True,
-        samesite="lax",
+        samesite=settings.access_token_cookie_same_site,
+        secure=settings.access_token_cookie_secure,
         path="/",
     )
     return token
@@ -42,14 +44,14 @@ def login(user_in: UserLogin, response: Response, db: Session = Depends(get_db))
 
 @router.post("/logout")
 def logout(response: Response):
-    response.delete_cookie(key="markethub_access_token", path="/")
+    response.delete_cookie(key=settings.access_token_cookie_name, path="/")
     return {"detail": "Logged out"}
 
 
 def get_current_user(db: Session = Depends(get_db), request: Request = None) -> UserOut:
     if request is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authenticated")
-    token = request.cookies.get("markethub_access_token")
+    token = request.cookies.get(settings.access_token_cookie_name)
     if not token:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Not authenticated")
     user_id = security.decode_access_token(token)
