@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     secret_key: str = Field(default="change-me-in-prod", alias="SECRET_KEY")
     algorithm: str = Field(default="HS256", alias="ALGORITHM")
     access_token_expires_minutes: int = Field(default=60, alias="ACCESS_TOKEN_EXPIRES_MINUTES")
+    refresh_token_expires_days: int = Field(default=14, alias="REFRESH_TOKEN_EXPIRES_DAYS")
     jwt_issuer: str = Field(default="markethub-auth", alias="JWT_ISSUER")
     jwt_audience: str = Field(default="markethub-client", alias="JWT_AUDIENCE")
     jwt_leeway_seconds: int = Field(default=60, alias="JWT_LEEWAY_SECONDS")
@@ -29,6 +30,15 @@ class Settings(BaseSettings):
     )
     access_token_cookie_secure: bool = Field(
         default=False, alias="ACCESS_TOKEN_COOKIE_SECURE"
+    )
+    refresh_token_cookie_name: str = Field(
+        default="markethub_refresh_token", alias="REFRESH_TOKEN_COOKIE_NAME"
+    )
+    refresh_token_cookie_same_site: str = Field(
+        default="lax", alias="REFRESH_TOKEN_COOKIE_SAMESITE"
+    )
+    refresh_token_cookie_secure: bool = Field(
+        default=False, alias="REFRESH_TOKEN_COOKIE_SECURE"
     )
     session_cookie_name: str = Field(default="markethub_session", alias="SESSION_COOKIE_NAME")
     session_cookie_same_site: str = Field(default="lax", alias="SESSION_COOKIE_SAMESITE")

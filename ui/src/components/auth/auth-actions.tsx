@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { LogoutButton } from "@/components/auth/logout-button";
+import { fetchWithAuth } from "@/lib/auth-fetch";
 
 type AuthState = "unknown" | "authenticated" | "guest";
 
@@ -24,9 +25,7 @@ export function AuthActions() {
           setAuthState("guest");
           return;
         }
-        const response = await fetch(`${baseUrl}/auth/me`, {
-          credentials: "include",
-        });
+        const response = await fetchWithAuth(`${baseUrl}/auth/me`);
         if (response.ok) {
           const payload = (await response.json().catch(() => null)) as AuthUser | null;
           setUser(payload);

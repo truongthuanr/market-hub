@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { fetchWithAuth } from "@/lib/auth-fetch";
 import { getServiceBaseUrl } from "@/lib/services";
 
 type CheckoutActionsProps = {
@@ -45,9 +46,8 @@ export function CheckoutActions({
           ? crypto.randomUUID()
           : `${Date.now()}-${Math.random()}`;
 
-      const checkoutResponse = await fetch(`${commerceBase}/v1/checkouts`, {
+      const checkoutResponse = await fetchWithAuth(`${commerceBase}/v1/checkouts`, {
         method: "POST",
-        credentials: "include",
         headers: {
           "Content-Type": "application/json",
           "Idempotency-Key": idempotencyKey,
@@ -67,9 +67,8 @@ export function CheckoutActions({
       };
       const returnUrl = `${window.location.origin}/orders/${checkout.order_id}`;
 
-      const paymentResponse = await fetch(`${paymentBase}/v1/payments`, {
+      const paymentResponse = await fetchWithAuth(`${paymentBase}/v1/payments`, {
         method: "POST",
-        credentials: "include",
         headers: {
           "Content-Type": "application/json",
           "Idempotency-Key": idempotencyKey,

@@ -36,6 +36,7 @@ class AuthService:
             return None
         return UserOut.model_validate(user)
 
-    def create_token(self, user: UserOut) -> Token:
+    def create_tokens(self, user: UserOut) -> tuple[Token, str]:
         access_token = security.create_access_token(subject=str(user.id), role=user.role)
-        return Token(access_token=access_token)
+        refresh_token = security.create_refresh_token(subject=str(user.id), role=user.role)
+        return Token(access_token=access_token), refresh_token

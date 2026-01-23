@@ -5,6 +5,7 @@ import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { fetchWithAuth } from "@/lib/auth-fetch";
 import { getServiceBaseUrl } from "@/lib/services";
 import type { CartItem } from "@/lib/types";
 
@@ -25,11 +26,10 @@ export function CartItemRow({ cartId, item, productName }: CartItemRowProps) {
     setErrorMessage(null);
     try {
       const commerceBase = getServiceBaseUrl("commerce");
-      const response = await fetch(
+      const response = await fetchWithAuth(
         `${commerceBase}/v1/carts/${cartId}/items/${item.id}`,
         {
           method: "PATCH",
-          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
@@ -56,11 +56,10 @@ export function CartItemRow({ cartId, item, productName }: CartItemRowProps) {
     setErrorMessage(null);
     try {
       const commerceBase = getServiceBaseUrl("commerce");
-      const response = await fetch(
+      const response = await fetchWithAuth(
         `${commerceBase}/v1/carts/${cartId}/items/${item.id}`,
         {
           method: "DELETE",
-          credentials: "include",
         },
       );
       if (!response.ok && response.status !== 204) {
